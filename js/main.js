@@ -1,3 +1,5 @@
 import {getDescriptions} from './data.js';
+import {renderImages} from './render-images.js';
 
-getDescriptions();
+const images = getDescriptions();
+renderImages(images);
