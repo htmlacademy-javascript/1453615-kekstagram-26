@@ -62,13 +62,13 @@ const getAllComments = () => {
   return commentIds.map((id) => new Object({
     id: id,
     descriptionId: getRandomInt(DescriptionId.MIN, DescriptionId.MAX),
-    avatar: `'img/avatar-${getRandomInt(CommentAvatarId.MIN, CommentAvatarId.MAX)}.svg'`,
+    avatar: `img/avatar-${getRandomInt(CommentAvatarId.MIN, CommentAvatarId.MAX)}.svg`,
     message: getCommentMessage(COMMENT_MESSAGES, CommentMessageCount.MIN, CommentMessageCount.MAX),
     name: getRandomArrayElement(COMMENT_NAMES)
   }));
 };
 
-const getDescriptions = () => {
+const getImagesData = () => {
   const descriptions = [];
   for (let i = DescriptionId.MIN; i <= DescriptionId.MAX; i++) {
     descriptions.push(new Object({
@@ -88,4 +88,4 @@ const getDescriptions = () => {
   return descriptions;
 };
 
-export {getDescriptions};
+export {getImagesData};
