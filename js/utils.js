@@ -43,4 +43,17 @@ const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInt, getRandomIntArray, getRandomArrayElement, numDecline, isEscapeKey};
+const stopEscapeOnFocus = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+};
+
+const toggleModalView = (selector) => {
+  document.querySelector(selector).classList.toggle('hidden');
+  document.querySelector('body').classList.toggle('modal-open');
+};
+
+const checkStringLength = (string, maxLength) => string.length > maxLength;
+
+export {getRandomInt, getRandomIntArray, getRandomArrayElement, numDecline, isEscapeKey, stopEscapeOnFocus, toggleModalView, checkStringLength};

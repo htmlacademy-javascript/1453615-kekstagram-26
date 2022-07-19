@@ -15,7 +15,7 @@ const CommentId = {
   MAX: 500
 };
 
-const AVERAGE_COMMENTS_COUNT = 5;
+const AVERAGE_COMMENTS_COUNT = 15;
 
 const CommentMessageCount = {
   MIN: 1,
