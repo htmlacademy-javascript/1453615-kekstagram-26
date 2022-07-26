@@ -6,17 +6,15 @@ const imageTemplate = document.querySelector('#picture').content.querySelector('
 const imageList = document.querySelector('.pictures');
 const imagesListFragment = document.createDocumentFragment();
 
-const openTargetPicturePreview = (targetId) => openPreview(imagesData[targetId - 1]);
-
 const onPicturesListClick = (evt) => {
-  const picture = evt.target.closest('.picture');
+  const targetPicture = evt.target.closest('.picture');
 
-  if (!picture) {
+  if (!targetPicture) {
     return;
   }
 
   evt.preventDefault();
-  openTargetPicturePreview(picture.dataset.pictureId);
+  openPreview(imagesData[targetPicture.dataset.pictureId - 1]);
 };
 
 const renderImages = () => {

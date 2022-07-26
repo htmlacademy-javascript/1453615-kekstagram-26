@@ -1,19 +1,18 @@
-import {isEscapeKey} from './utils.js';
-import {renderPicture} from './render-picture.js';
+import {isEscapeKey, toggleModalView} from './utils.js';
+import {renderPicture, onCommentsLoadButtonClick} from './render-picture.js';
 
 const picturePrewiewElement = document.querySelector('.big-picture');
 const pictureCloseButtonElement = picturePrewiewElement.querySelector('#picture-cancel');
+const commentsLoaderButtonElement = picturePrewiewElement.querySelector('.social__comments-loader');
 
-const togglePreviewState = () => {
-  picturePrewiewElement.classList.toggle('hidden');
-  document.querySelector('body').classList.toggle('modal-open');
-};
+const togglePreviewState = () => toggleModalView('.big-picture');
 
 const onPreviewEscapeKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     togglePreviewState();
 
     document.removeEventListener('keydown', onPreviewEscapeKeydown);
+    commentsLoaderButtonElement.removeEventListener('click', onCommentsLoadButtonClick);
   }
 };
 
@@ -21,6 +20,8 @@ const onPreviewCloseButtonClick = () => {
   togglePreviewState();
 
   document.removeEventListener('keydown', onPreviewEscapeKeydown);
+  commentsLoaderButtonElement.removeEventListener('click', onCommentsLoadButtonClick);
+
 };
 
 const openPreview = (picture) => {
@@ -29,6 +30,7 @@ const openPreview = (picture) => {
   document.addEventListener('keydown', onPreviewEscapeKeydown);
 
   renderPicture(picture);
+  commentsLoaderButtonElement.addEventListener('click', onCommentsLoadButtonClick);
 };
 
 pictureCloseButtonElement.addEventListener('click', onPreviewCloseButtonClick);
