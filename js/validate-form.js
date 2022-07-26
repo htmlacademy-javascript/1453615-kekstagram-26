@@ -19,11 +19,7 @@ const pristine = new Pristine(formUpload, {
 });
 
 const formSubminIsDisable = () => {
-  if (pristine.validate()) {
-    formUploadSubmit.disabled = false;
-  } else {
-    formUploadSubmit.disabled = true;
-  }
+  formUploadSubmit.disabled = !pristine.validate();
 };
 
 let errorMessage = '';
@@ -120,11 +116,7 @@ const descriptionHandler = (value) => {
 pristine.addValidator(inputDescription, descriptionHandler, error, 2, false);
 
 const onDescriptionInput = () => {
-  if (pristine.validate()) {
-    formUploadSubmit.disabled = false;
-  } else {
-    formUploadSubmit.disabled = true;
-  }
+  formUploadSubmit.disabled = !pristine.validate();
 };
 
 const onDescriptionKeydown = (evt) => {
