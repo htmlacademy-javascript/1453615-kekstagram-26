@@ -1,24 +1,13 @@
-import {getImagesData} from './data.js';
 import {openPreview} from './open-preview.js';
+import {createRequest} from './fetch.js';
+import {showErrorAlert} from './utils.js';
 
-const imagesData = getImagesData();
 const imageTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const imageList = document.querySelector('.pictures');
 const imagesListFragment = document.createDocumentFragment();
 
-const onPicturesListClick = (evt) => {
-  const targetPicture = evt.target.closest('.picture');
-
-  if (!targetPicture) {
-    return;
-  }
-
-  evt.preventDefault();
-  openPreview(imagesData[targetPicture.dataset.pictureId - 1]);
-};
-
-const renderImages = () => {
-  imagesData.forEach((image) => {
+const renderImages = (images) => {
+  images.forEach((image) => {
     const {id, url, likes, comments} = image;
 
     const imageElement = imageTemplate.cloneNode(true);
@@ -30,7 +19,20 @@ const renderImages = () => {
   });
 
   imageList.appendChild(imagesListFragment);
-  imageList.addEventListener('click', onPicturesListClick);
+  imageList.addEventListener('click', (evt) => {
+    const targetPicture = evt.target.closest('.picture');
+
+    if (!targetPicture) {
+      return;
+    }
+
+    evt.preventDefault();
+    openPreview(images[targetPicture.dataset.pictureId]);
+  });
 };
 
-export {renderImages};
+const getImagesErrorAlert = () => showErrorAlert('Не удалось загружить изображения =(');
+
+const getImagesData = () => createRequest(renderImages, getImagesErrorAlert, 'GET');
+
+export {getImagesData};

@@ -1335,6 +1335,26 @@ main {
           transform: translateX(-50%);
 }
 
+/**
+ * Сообщение об ошибке
+ */
+
+ .error-message {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 20;
+
+  padding: 30px 10px;
+
+  font-size: 22px;
+  font-style: bold;
+  text-align: center;
+  color: #cccccc;
+
+  background-color: #622104;
+ }
 
 /* Адаптивности чуток
    ========================================================================== */

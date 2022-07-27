@@ -1,3 +1,5 @@
+const INITIAL_EFFECT = 'none';
+
 const Effects = {
   'none': {
     settings: {
@@ -114,7 +116,7 @@ const setEffect = (name) => {
 
   imageEfectSliderElement.noUiSlider.on('update', () => {
     imageEfectLevelValue.value = imageEfectSliderElement.noUiSlider.get();
-    imagePreviewElement.style.filter = name === 'none' ? `${filter}` : `${filter}(${imageEfectLevelValue.value}${unit})`;
+    imagePreviewElement.style.filter = name === INITIAL_EFFECT ? `${filter}` : `${filter}(${imageEfectLevelValue.value}${unit})`;
   });
 };
 
@@ -132,6 +134,5 @@ const onImageUploadEffectChange = (evt) => {
   setEffectClass(targetEffectName);
   setEffect(targetEffectName);
 };
-
 
 export {onImageUploadEffectChange, setEffect};
