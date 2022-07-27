@@ -1,9 +1,8 @@
 import {isEscapeKey, closeModal, openModal} from './utils.js';
 import {renderPicture, onCommentsLoadButtonClick} from './render-picture.js';
 
-const picturePrewiewElement = document.querySelector('.big-picture');
-const pictureCloseButtonElement = picturePrewiewElement.querySelector('#picture-cancel');
-const commentsLoaderButtonElement = picturePrewiewElement.querySelector('.social__comments-loader');
+const pictureCloseButtonElement = document.querySelector('#picture-cancel');
+const commentsLoaderButtonElement = document.querySelector('.social__comments-loader');
 
 const madalPreviewSelector = '.big-picture';
 

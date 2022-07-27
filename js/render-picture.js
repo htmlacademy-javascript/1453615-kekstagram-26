@@ -5,18 +5,17 @@ const ADD_COMMENTS_COUNTER = 5;
 
 const numDeclineComments = (num) => numDecline(num, 'комментария', 'комментариев', 'комментариев');
 
-const picturePreviewElement = document.querySelector('.big-picture');
-const pictureImgElement = picturePreviewElement.querySelector('.big-picture__img img');
-const pictureCaptionElement = picturePreviewElement.querySelector('.social__caption');
-const pictureLikesCountElement = picturePreviewElement.querySelector('.likes-count');
+const pictureImgElement = document.querySelector('.big-picture__img img');
+const pictureCaptionElement = document.querySelector('.social__caption');
+const pictureLikesCountElement = document.querySelector('.likes-count');
 
-const pictureCommentCountElement = picturePreviewElement.querySelector('.social__comment-count');
-const commentsLoaderButton = picturePreviewElement.querySelector('.social__comments-loader');
-const commentsListElement = picturePreviewElement.querySelector('.social__comments');
+const pictureCommentCountElement = document.querySelector('.social__comment-count');
+const commentsLoaderButton = document.querySelector('.social__comments-loader');
+const commentsListElement = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const commentsListFragment = document.createDocumentFragment();
-const socialPicture = commentTemplate.querySelector('.social__picture');
-const socialCommentText = commentTemplate.querySelector('.social__text');
+const socialPicture = document.querySelector('.social__picture');
+const socialCommentText = document.querySelector('.social__text');
 
 let loadedCommentsCount;
 let commentsArray = [];
