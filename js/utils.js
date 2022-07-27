@@ -1,3 +1,5 @@
+const ALERT_TIMEOUT = 3000;
+
 const getRandomInt = (min, max) => {
   if (min > max) {
     [min, max] = [max, min];
@@ -49,11 +51,28 @@ const stopEscapeOnFocus = (evt) => {
   }
 };
 
-const toggleModalView = (selector) => {
-  document.querySelector(selector).classList.toggle('hidden');
-  document.querySelector('body').classList.toggle('modal-open');
+const closeModal = (selector) => {
+  document.querySelector(selector).classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+};
+
+const openModal = (selector) => {
+  document.querySelector(selector).classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
 };
 
 const checkStringLength = (string, maxLength) => string.length > maxLength;
 
-export {getRandomInt, getRandomIntArray, getRandomArrayElement, numDecline, isEscapeKey, stopEscapeOnFocus, toggleModalView, checkStringLength};
+const showErrorAlert = (message) => {
+  const alertElement = document.createElement('div');
+  alertElement.classList.add('error-message');
+  alertElement.textContent = message;
+  document.body.append(alertElement);
+
+  setTimeout(() => {
+    alertElement.remove();
+  }, ALERT_TIMEOUT);
+};
+
+
+export {getRandomInt, getRandomIntArray, getRandomArrayElement, numDecline, isEscapeKey, stopEscapeOnFocus, closeModal, openModal, checkStringLength, showErrorAlert};
