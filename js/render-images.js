@@ -1,12 +1,11 @@
 import {openPreview} from './open-preview.js';
-import {createRequest} from './fetch.js';
-import {showErrorAlert} from './utils.js';
 
 const imageTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const imageList = document.querySelector('.pictures');
 const imagesListFragment = document.createDocumentFragment();
 
 const renderImages = (images) => {
+  document.querySelectorAll('.picture').forEach((element) => element.remove());
   images.forEach((image) => {
     const {id, url, likes, comments} = image;
 
@@ -31,8 +30,4 @@ const renderImages = (images) => {
   });
 };
 
-const getImagesErrorAlert = () => showErrorAlert('Не удалось загружить изображения =(');
-
-const getImagesData = () => createRequest(renderImages, getImagesErrorAlert, 'GET');
-
-export {getImagesData};
+export {renderImages};
