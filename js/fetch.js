@@ -3,6 +3,19 @@ const Urls = {
   POST: 'https://26.javascript.pages.academy/kekstagram'
 };
 
+const DOWNLOAD_ERROR_MESSAGE = 'Не удалось загружить изображения =(';
+
+const getData = (onSuccess, onError) => {
+  fetch(Urls.GET)
+    .then((response) => response.json())
+    .then((images) => {
+      onSuccess(images);
+    })
+    .catch(() => {
+      onError(DOWNLOAD_ERROR_MESSAGE);
+    });
+};
+
 const createRequest = (onSuccess, onError, method, body) => {
   fetch(
     Urls[method],
@@ -20,4 +33,4 @@ const createRequest = (onSuccess, onError, method, body) => {
     });
 };
 
-export {createRequest};
+export {createRequest, getData};

@@ -29,6 +29,15 @@ const getRandomIntArray = (length, minValue, maxValue) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = getRandomInt(0, array.length - 1);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
+};
+
 const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
   if(num > 10 && (Math.round((num % 100) / 10)) === 1){
     return genitivePlural;
@@ -74,5 +83,13 @@ const showErrorAlert = (message) => {
   }, ALERT_TIMEOUT);
 };
 
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
 
-export {getRandomInt, getRandomIntArray, getRandomArrayElement, numDecline, isEscapeKey, stopEscapeOnFocus, closeModal, openModal, checkStringLength, showErrorAlert};
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomInt, getRandomIntArray, getRandomArrayElement, shuffleArray, numDecline, isEscapeKey, stopEscapeOnFocus, closeModal, openModal, checkStringLength, showErrorAlert, debounce};
