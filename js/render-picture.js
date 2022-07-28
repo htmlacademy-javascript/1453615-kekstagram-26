@@ -16,7 +16,7 @@ const commentTemplate = document.querySelector('#comment').content.querySelector
 const commentsListFragment = document.createDocumentFragment();
 
 let loadedCommentsCount = 0;
-let commentsArray = [];
+let allCommetns = [];
 
 const renderImagePrewiew = ({id, url, description, likes}) => {
   pictureImgElement.src = url;
@@ -63,7 +63,7 @@ const renderComments = (comments, count) => {
 
 function onCommentsLoadButtonClick () {
   loadedCommentsCount += ADD_COMMENTS_COUNTER;
-  renderComments(commentsArray, loadedCommentsCount);
+  renderComments(allCommetns, loadedCommentsCount);
 }
 
 function renderPicture (picture) {
@@ -73,8 +73,8 @@ function renderPicture (picture) {
   renderImagePrewiew(picture);
   renderCommentsCouner(commentsCount, loadedCommentsCount);
 
-  commentsArray = picture.comments;
-  renderComments(commentsArray, loadedCommentsCount);
+  allCommetns = picture.comments;
+  renderComments(allCommetns, loadedCommentsCount);
 }
 
 export {renderPicture, renderComments, onCommentsLoadButtonClick};
