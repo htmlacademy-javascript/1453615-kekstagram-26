@@ -26,7 +26,11 @@ const renderImages = (images) => {
     }
 
     evt.preventDefault();
-    openPreview(images[targetPicture.dataset.pictureId]);
+    images.filter((image) => {
+      if (image.id === +targetPicture.dataset.pictureId) {
+        openPreview(image);
+      }
+    });
   });
 };
 
