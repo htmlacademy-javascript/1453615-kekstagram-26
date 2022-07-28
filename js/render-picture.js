@@ -14,21 +14,20 @@ const commentsLoaderButton = document.querySelector('.social__comments-loader');
 const commentsListElement = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const commentsListFragment = document.createDocumentFragment();
-const socialPicture = document.querySelector('.social__picture');
-const socialCommentText = document.querySelector('.social__text');
 
-let loadedCommentsCount;
+let loadedCommentsCount = 0;
 let commentsArray = [];
 
-const renderImagePrewiew = ({url, description, likes}) => {
+const renderImagePrewiew = ({id, url, description, likes}) => {
   pictureImgElement.src = url;
   pictureImgElement.alt = description;
+  pictureImgElement.dataset.pictureId = id;
   pictureCaptionElement.textContent = description;
   pictureLikesCountElement.textContent = likes;
 };
 
 const renderCommentsCouner = (count, loadedCount) => {
-  if (count <= loadedCount && !commentsLoaderButton.classList.contains('hidden')) {
+  if (count <= loadedCount) {
     commentsLoaderButton.classList.add('hidden');
     loadedCount = count;
   } else {
@@ -40,6 +39,9 @@ const renderCommentsCouner = (count, loadedCount) => {
 
 const renderComment = ({avatar, name, message}) => {
   const commentElement = commentTemplate.cloneNode(true);
+  const socialPicture = commentElement.querySelector('.social__picture');
+  const socialCommentText = commentElement.querySelector('.social__text');
+
   socialPicture.src = avatar;
   socialPicture.alt = name;
   socialCommentText.textContent = message;
@@ -47,9 +49,11 @@ const renderComment = ({avatar, name, message}) => {
 };
 
 const renderComments = (comments, count) => {
+  commentsListElement.innerHTML = '';
+
   const currentCount = count >= comments.length ? comments.length : count;
 
-  for (let i = loadedCommentsCount - ADD_COMMENTS_COUNTER; i < currentCount; i++) {
+  for (let i = 0; i < currentCount; i++) {
     renderComment(comments[i]);
   }
 
@@ -63,13 +67,12 @@ function onCommentsLoadButtonClick () {
 }
 
 function renderPicture (picture) {
-  loadedCommentsCount = INITIAL_LOADED_COMMENTS;
   const commentsCount = picture.comments.length;
+  loadedCommentsCount = commentsCount <= INITIAL_LOADED_COMMENTS ? commentsCount : INITIAL_LOADED_COMMENTS;
 
   renderImagePrewiew(picture);
   renderCommentsCouner(commentsCount, loadedCommentsCount);
 
-  commentsListElement.innerHTML = '';
   commentsArray = picture.comments;
   renderComments(commentsArray, loadedCommentsCount);
 }

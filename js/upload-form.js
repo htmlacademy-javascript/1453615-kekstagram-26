@@ -64,17 +64,35 @@ imageUploadButtomCloseElement.addEventListener('click', onUploadButtonCloseClick
 const showAlert = (selector) => {
   const alertTemplate = document.querySelector(`#${selector}`).content.querySelector(`.${selector}`);
   const alertElement = alertTemplate.cloneNode(true);
+  const alertSubmitButtonElement = alertElement.querySelector(`.${selector}__button`);
   document.body.appendChild(alertElement);
 
-  const removeAlert = (evt) => {
-    if (evt.target.closest(`.${selector}__button`) || evt.target.closest(`.${selector}`) || isEscapeKey) {
-      alertElement.removeEventListener('keydown', removeAlert);
+  function onAlertEccapeKeydown (evt) {
+    if (isEscapeKey(evt)) {
+      alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
+      alertElement.removeEventListener('click', onAlertOverlayClick);
       alertElement.remove();
-      document.removeEventListener('keydown', removeAlert);
+      document.removeEventListener('keydown', onAlertEccapeKeydown);
     }
-  };
-  document.addEventListener('keydown', removeAlert);
-  alertElement.addEventListener('click', removeAlert);
+  }
+
+  function onAlertSubmitButtonClick () {
+    alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
+    alertElement.removeEventListener('click', onAlertOverlayClick);
+    alertElement.remove();
+    document.removeEventListener('keydown', onAlertEccapeKeydown);
+  }
+
+  function onAlertOverlayClick () {
+    alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
+    alertElement.removeEventListener('click', onAlertOverlayClick);
+    alertElement.remove();
+    document.removeEventListener('keydown', onAlertEccapeKeydown);
+  }
+
+  document.addEventListener('keydown', onAlertEccapeKeydown);
+  alertSubmitButtonElement.addEventListener('click', onAlertSubmitButtonClick);
+  alertElement.addEventListener('click', onAlertOverlayClick);
 };
 
 const blockSubmitButton = () => {
@@ -97,6 +115,7 @@ const onFormSuccessSubmit = () => {
 const onFormErrorSubmit = () => {
   showAlert(ERROR_CLASS);
   unblockSubmitButton();
+  closeModal(imageUploadFormSelector);
 };
 
 const postUploadForm = () => createRequest(onFormSuccessSubmit, onFormErrorSubmit, 'POST', new FormData(imageUploadFormElement));
