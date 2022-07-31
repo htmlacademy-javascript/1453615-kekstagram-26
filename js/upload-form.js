@@ -13,6 +13,7 @@ const SubmitButton = {
 };
 
 const imageUploadFormSelector = '.img-upload__overlay';
+const imageUploadOverlayElement = document.querySelector('.img-upload__overlay');
 const imageUploadFormElement = document.querySelector('.img-upload__form');
 const imageUploadInputElement = document.querySelector('.img-upload__input');
 const imageUploadButtomCloseElement = document.querySelector('#upload-cancel');
@@ -39,9 +40,9 @@ const resetImageUploadForm = () => {
 };
 
 const onUploadEscapeKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    closeModal(imageUploadFormSelector);
+  if (isEscapeKey(evt) && !document.querySelector(`.${ERROR_CLASS}`)) {
     resetImageUploadForm();
+    closeModal(imageUploadFormSelector);
     document.removeEventListener('keydown', onUploadEscapeKeydown);
   }
 };
@@ -67,32 +68,35 @@ const showAlert = (selector) => {
   const alertSubmitButtonElement = alertElement.querySelector(`.${selector}__button`);
   document.body.appendChild(alertElement);
 
+  const alertClose = () => {
+    alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
+    alertElement.removeEventListener('click', onAlertOverlayClick);
+    alertElement.remove();
+    document.removeEventListener('keydown', onAlertEccapeKeydown);
+    if (selector === ERROR_CLASS) {
+      imageUploadOverlayElement.classList.remove('hidden');
+    }
+  };
+
   function onAlertEccapeKeydown (evt) {
     if (isEscapeKey(evt)) {
-      alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
-      alertElement.removeEventListener('click', onAlertOverlayClick);
-      alertElement.remove();
-      document.removeEventListener('keydown', onAlertEccapeKeydown);
+      alertClose();
     }
   }
 
   function onAlertSubmitButtonClick () {
-    alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
-    alertElement.removeEventListener('click', onAlertOverlayClick);
-    alertElement.remove();
-    document.removeEventListener('keydown', onAlertEccapeKeydown);
+    alertClose();
   }
 
-  function onAlertOverlayClick () {
-    alertSubmitButtonElement.removeEventListener('click', onAlertSubmitButtonClick);
-    alertElement.removeEventListener('click', onAlertOverlayClick);
-    alertElement.remove();
-    document.removeEventListener('keydown', onAlertEccapeKeydown);
+  function onAlertOverlayClick (evt) {
+    if (evt.target.closest(`#${selector}`) || !evt.target.closest(`.${selector}__inner`)) {
+      alertClose();
+    }
   }
 
-  document.addEventListener('keydown', onAlertEccapeKeydown);
   alertSubmitButtonElement.addEventListener('click', onAlertSubmitButtonClick);
   alertElement.addEventListener('click', onAlertOverlayClick);
+  document.addEventListener('keydown', onAlertEccapeKeydown);
 };
 
 const blockSubmitButton = () => {
@@ -110,12 +114,13 @@ const onFormSuccessSubmit = () => {
   resetImageUploadForm();
   closeModal(imageUploadFormSelector);
   unblockSubmitButton();
+  document.removeEventListener('keydown', onUploadEscapeKeydown);
 };
 
 const onFormErrorSubmit = () => {
+  imageUploadOverlayElement.classList.add('hidden');
   showAlert(ERROR_CLASS);
   unblockSubmitButton();
-  closeModal(imageUploadFormSelector);
 };
 
 const postUploadForm = () => createRequest(onFormSuccessSubmit, onFormErrorSubmit, 'POST', new FormData(imageUploadFormElement));
@@ -124,7 +129,6 @@ const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
   blockSubmitButton();
   postUploadForm();
-  document.removeEventListener('keydown', onUploadEscapeKeydown);
 };
 
 imageUploadFormElement.addEventListener('submit', onUploadFormSubmit);
